@@ -1,0 +1,4 @@
+chronicler
+*.fasl
+.*
+!/.gitignore

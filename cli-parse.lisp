@@ -18,6 +18,10 @@
    :description "Report count information."
    :short #\r
    :long "report")
+  (:name :ignore
+   :description "Ignore all headings by default."
+   :short #\i
+   :long "ignore")
   (:name :directory
    :description "The directory to use for storing count information.
                  Defaults to '.chronicler/' in the current directory."
@@ -79,6 +83,7 @@
                   (*base-store-dir* (or (ensure-trailing-/
                                          (getf options :directory))
                                         *base-store-dir*))
+                  (*default-ignore-behavior* (getf options :ignore))
                   (file (car free-args)))
              (cond ((getf options :report)
                     (format t "word count:~a~%"

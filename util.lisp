@@ -11,9 +11,9 @@
       (read-sequence data stream)
       data)))
 
-(defun replace-/-with-_ (path)
+(defun replace-/-with-! (path)
   "Replace all '/' characters in PATH with '!' characters."
-  (regex-replace-all "/" path "_"))
+  (regex-replace-all "/" path "!"))
 
 (defun ensure-trailing-/ (path)
   "Ensure that the string PATH ends with '/'."
@@ -34,7 +34,7 @@
   (ensure-directories-exist
    (concatenate 'string
                 *base-store-dir*
-                (replace-/-with-_ (namestring (truename file)))
+                (replace-/-with-! (namestring (truename file)))
                 "/")))
 
 ;; TODO: store last date if this takes a significant amount of time

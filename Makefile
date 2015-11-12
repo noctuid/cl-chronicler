@@ -1,6 +1,7 @@
 LISP ?= sbcl
 PREFIX ?= /usr/local
 BINDIR = $(PREFIX)/bin
+LICENSEDIR = $(PREFIX)/share/licenses
 FILES=chronicler.asd $(shell grep -o ":file \".*\"" chronicler.asd | \
 	awk 'gsub("\"","") {print $$2".lisp"}')
 
@@ -13,7 +14,9 @@ clean:
 	rm chronicler
 
 install:
-	install -D -m 755 chronicler "$(DESTDIR)$(BINDIR)"
+	install -D -m 755 chronicler "$(DESTDIR)$(BINDIR)"/chronicler
+	install -D -m 644 LICENSE "$(DESTDIR)$(LICENSEDIR)"/chronicler/LICENSE
 
 unintall:
-	rm "$(DESTDIR)$(BINDIR)"/chronicler
+	rm -r "$(DESTDIR)$(BINDIR)"/chronicler
+	rm -rf "$(DESTDIR)$(BINDIR)"/chronicler

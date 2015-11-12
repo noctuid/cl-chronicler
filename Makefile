@@ -1,7 +1,8 @@
 LISP ?= sbcl
 PREFIX ?= /usr/local
 BINDIR = $(PREFIX)/bin
-FILES=chronicler.asd $(shell grep -o ":file \".*\"" chronicler.asd | awk 'gsub("\"","") {print $$2".lisp"}')
+FILES=chronicler.asd $(shell grep -o ":file \".*\"" chronicler.asd | \
+	awk 'gsub("\"","") {print $$2".lisp"}')
 
 chronicler: $(FILES) chronicler.ros
 	ros install quicklisp # is this necessary?

@@ -1,6 +1,51 @@
 ;; TODO: make better sexp regexp wrapper for cl-ppcre or try cl-irregsexp
 (in-package :chronicler)
 
+;;; Org Heading Class and Methods
+(defclass org-heading ()
+  ((id
+    :type (or string null)
+    :initarg :id
+    :initform nil
+    :documentation "Org heading id.")
+   (word-count
+    :type integer
+    :initarg :word-count
+    :initform 0
+    :accessor word-count
+    :documentation "Number of words directly under the heading.")
+   (sub-headings
+    :type (or (list org-heading) null)
+    :accessor sub-headings
+    :initform nil
+    :documentation "List of org-heading objects that are sub-headings.")
+   (ignored
+    :type boolean
+    :initarg :ignored
+    :initform *default-ignore-behavior*
+    :accessor ignored
+    :documentation "Whether to ignore the content directly under the heading.")
+   (ignored-recursively
+    :type boolean
+    :initarg :ignored-recursively
+    :initform *default-ignore-behavior*
+    :accessor ignored-recursively
+    :documentation
+    "Whether to ignore the content under all sub-headings by default.")))
+
+(defgeneric total-word-count (heading)
+  (:documentation
+   "Get the total word count of a heading including sub-heading content."))
+(defmethod total-word-count ((heading org-heading))
+  (let ((wc (word-count heading))
+        (sub-headings (sub-headings heading)))
+    (dolist (sub-heading sub-headings)
+      (let ((additional-wc (total-word-count sub-heading)))
+        (unless (ignored sub-heading)
+          (incf wc additional-wc))))
+    wc))
+
+;;; Org Regex
 (defparameter +org-heading-regexp+
   "(?m)^\\*+ .*$"
   "Regexp that matches an org heading.")
@@ -48,6 +93,10 @@
 (defun remove-org-ignored-text (text)
   (dolist (regex *org-syntax-regexps* text)
     (setf text (regex-replace-all regex text ""))))
+
+(defun count-org-words (text)
+  "Return the number of words in TEXT ignoring special org syntax."
+  (count-words (remove-org-ignored-text text)))
 
 (defparameter +org-property-drawer-regexp+
   "(?ms)^:PROPERTIES:$.*?:END:$"

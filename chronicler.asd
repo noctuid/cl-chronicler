@@ -8,6 +8,7 @@
   :components ((:file "package")
                (:file "option-defaults")
                (:file "util")
-               (:file "org-parse")
                (:file "counts")
+               (:file "org-parse")
+               (:file "store-and-query")
                (:file "cli-parse")))

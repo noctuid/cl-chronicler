@@ -89,6 +89,6 @@
                     (format t "word count:~a~%"
                             (multiple-value-bind (today-info previous-info)
                                 (get-today-info file (getf options :update))
-                              (get-today-word-count today-info previous-info))))
+                              (compare-word-count today-info previous-info))))
                    ((getf options :update)
                     (update-today-info file))))))))

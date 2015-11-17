@@ -2,18 +2,18 @@
 
 ;; TODO: figure out why emacs is indenting these wrong
 (define-opts
-    (:name :help
-     :description "Print this help text."
-     :short #\h
-     :long "help")
-    ;; (:name :total
-    ;;  :description "Print total counts instead of comparative"
-    ;;  :short #\T
-    ;; :long "total")
-    (:name :update
-     :description "Update all count information for the specified file."
-     :short #\u
-     :long "update")
+  (:name :help
+   :description "Print this help text."
+   :short #\h
+   :long "help")
+  (:name :update
+   :description "Update all count information for the specified file."
+   :short #\u
+   :long "update")
+  ;; (:name :total
+  ;;  :description "Print total counts instead of comparative"
+  ;;  :short #\T
+  ;; :long "total")
   (:name :report
    :description "Report count information."
    :short #\r

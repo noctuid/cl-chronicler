@@ -20,6 +20,6 @@ install:
 	install -D -m 644 completion/_chronicler "$(DESTDIR)$(ZSHDIR)"/_chronicler
 
 unintall:
-	rm -r "$(DESTDIR)$(BINDIR)"/chronicler
-	rm -rf "$(DESTDIR)$(BINDIR)"/chronicler
-	rm -r "$(DESTDIR)$(ZSHDIR)"/_chronicler
+	rm -f "$(DESTDIR)$(BINDIR)"/chronicler
+	rm -rf "$(DESTDIR)$(LICENSEDIR)"/chronicler
+	rm -f "$(DESTDIR)$(ZSHDIR)"/_chronicler

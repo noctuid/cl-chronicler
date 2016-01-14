@@ -3,7 +3,7 @@
 ;;; Persisting and Getting Information for Entire File
 (defun update-today-info (file)
   "Store and return org heading information obtained from FILE."
-  (let* ((info (parse-org-file file))
+  (let* ((info (parse-markup-file file))
          (store-dir (get-and-create-store-dir file))
          (today-file  (concatenate 'string store-dir (get-date-stamp 0)))
          (yesterday-file (concatenate 'string store-dir (get-date-stamp 1))))

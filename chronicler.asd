@@ -4,12 +4,14 @@
   :homepage "https://github.com/noctuid/cl-chronicler"
   :license "GPL3"
   :version "0.1"
-  :depends-on (:cl-ppcre :unix-opts :cl-store :local-time)
+  :depends-on (:alexandria :cl-ppcre :unix-opts :cl-store :local-time)
   :serial t
   :components ((:file "package")
                (:file "option-defaults")
                (:file "util")
                (:file "counts")
+               (:file "markup")
                (:file "org-parse")
+               (:file "generic-parse")
                (:file "store-and-query")
                (:file "cli-parse")))

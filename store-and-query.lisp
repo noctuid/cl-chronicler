@@ -1,3 +1,5 @@
+(in-package :chronicler)
+
 ;;; Persisting and Getting Information for Entire File
 (defun update-today-info (file)
   "Store and return org heading information obtained from FILE."

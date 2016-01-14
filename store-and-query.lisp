@@ -15,21 +15,26 @@
       (store info yesterday-file))
     (store info today-file)))
 
-(defun get-today-info (file &optional force-update)
-  "Return org heading information obtained from the stored data for FILE.
-The FILE will only be examined if FORCE-UPDATE is non-nil or if data does not
-yet exist for today."
+(defun get-days-ago-info (file days-ago)
+  "Return the stored information for FILE as of DAYS-AGO days.
+As a special case, specifying -1 for DAYS-AGO will get the information for the
+last date before today that information was stored."
   (let* ((store-dir (get-and-create-store-dir file))
-         (today-file (concatenate 'string store-dir (get-date-stamp 0)))
-         (today-info
-           (if (and (probe-file today-file)
-                    (not force-update))
-               (restore today-file)
-               (update-today-info file)))
-         ;; last time data stored may not be yesterday
-         (previous-file (get-previous-date-file store-dir))
-         (previous-info (when previous-file (restore previous-file))))
-    (values today-info previous-info)))
+         (day-file (if (= days-ago -1)
+                       (get-previous-date-file store-dir)
+                       (concatenate 'string store-dir
+                                    (get-date-stamp days-ago)))))
+    (if (probe-file day-file)
+        (restore file)
+        nil)))
+
+(defun get-previous-info (file)
+  "Return the information for FILE from the most recent day before today."
+  (get-days-ago-info file -1))
+
+(defun get-today-info (file)
+  "Return the information for FILE from today."
+  (get-days-ago-info file 0))
 
 ;;; Comparison Functions
 (defun compare-days (accessor day1 day2)
@@ -39,15 +44,10 @@ ACCESSOR."
    (funcall accessor day1)
    (funcall accessor day2)))
 
-(defun compare-word-count (today-info &optional previous-info)
-  "Return the number of words written today as obtained from TODAY-INFO.
-If PREVIOUS-DAY-INFO is non-nil the word count will be calculated as
-the total number of words existing today minus the total number of words
-
-returned."
-  (if previous-info
-      (compare-days
-       #'total-word-count
-       (gethash 'root today-info)
-       (gethash 'root previous-info))
-      (total-word-count (gethash 'root today-info))))
+(defun compare-word-count (today-info earlier-info)
+  "Return the difference in total word count between TODAY-INFO and
+EARLIER-INFO."
+  (compare-days
+   #'total-word-count
+   (gethash 'root today-info)
+   (gethash 'root earlier-info)))

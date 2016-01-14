@@ -87,8 +87,13 @@
                   (file (car free-args)))
              (cond ((getf options :report)
                     (format t "word count:~a~%"
-                            (multiple-value-bind (today-info previous-info)
-                                (get-today-info file (getf options :update))
-                              (compare-word-count today-info previous-info))))
+                            (let* ((today-info (if (getf options :update)
+                                                  (update-today-info file)
+                                                (get-today-info file)))
+                                  (previous-info (when today-info
+                                                   (get-previous-info file))))
+                              (if today-info
+                                  (compare-word-count today-info previous-info)
+                                0))))
                    ((getf options :update)
                     (update-today-info file))))))))

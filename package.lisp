@@ -2,6 +2,8 @@
 
 (defpackage :chronicler
   (:use :cl)
+  (:import-from :alexandria
+                #:eswitch)
   (:import-from :cl-ppcre
                 #:regex-replace
                 #:regex-replace-all

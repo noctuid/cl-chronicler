@@ -1,0 +1,25 @@
+* level 1
+:PROPERTIES:
+:ID:       ea242d4f-c79b-4f06-95d2-5e197071a048
+:END:
+Two words.
+** level 2
+:PROPERTIES:
+:ID:       42b14872-b0e7-45ac-8810-78d322919497
+:END:
+Two words.
+*** level 3
+:PROPERTIES:
+:ID:       1b3f775c-b1f1-4a1a-a779-c92e3cd404a0
+:END:
+Two words.
+**** level 4
+:PROPERTIES:
+:ID:       82b1e5d6-b734-4e85-a40d-988a0aafd033
+:END:
+Two words.
+* level 1.2
+:PROPERTIES:
+:ID:       c5f23538-602b-4ea6-9141-d0656cd572d4
+:END:
+Two words.

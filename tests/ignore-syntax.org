@@ -1,0 +1,22 @@
+* Test Heading
+SCHEDULED: <2015-10-01 Thu>
+:PROPERTIES:
+:ID:       800fc725-055d-4b28-b0e6-acb3eac1573e
+:END:
+# The content of comments is not counted.
+# "SCHEDULED"/planning lines and drawers are not counted.
+# Heading titles are not counted.
+
+*This* is not a heading.
+
+These are some more words that will be counted.
+
+# Source blocks are not counted.
+#+begin_src emacs-lisp
+(let ((baz 1)))
+#+end_src
+
+
+#+begin_src emacs-lisp
+;; another block
+#+end_src

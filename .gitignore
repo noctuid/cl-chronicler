@@ -2,3 +2,4 @@ chronicler
 *.fasl
 .*
 !/.gitignore
+!/.travis.yml

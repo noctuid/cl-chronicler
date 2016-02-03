@@ -1,0 +1,45 @@
+# https://github.com/roswell/roswell/wiki/4.1-Travis-CI
+language: common-lisp
+sudo: false
+
+# needed for clisp, abcl, alist, and cmucl since sudo is false
+addons:
+  apt:
+    packages:
+      - libc6-i386
+      - clisp
+      - openjdk-7-jre
+
+env:
+  global:
+    # for using run-prove
+    - PATH=~/.roswell/bin:$PATH
+    - ROSWELL_INSTALL_DIR=$HOME/.roswell
+  matrix:
+    - LISP=sbcl-bin
+    - LISP=ccl-bin
+    - LISP=abcl
+    - LISP=clisp
+    - LISP=ecl
+    - LISP=cmucl
+    - LISP=alisp
+
+matrix:
+  allow_failures:
+    - env: LISP=abcl
+    - env: LISP=clisp
+    - env: LISP=ecl
+    - env: LISP=cmucl
+    - env: LISP=alisp
+
+install:
+  - curl -L https://raw.githubusercontent.com/snmsts/roswell/release/scripts/install-for-ci.sh | sh
+  - ros install prove
+
+cache:
+  directories:
+    - $HOME/.roswell
+    - $HOME/.config/common-lisp
+
+script:
+  - run-prove tests/chronicler-tests.asd

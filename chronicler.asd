@@ -1,3 +1,8 @@
+(in-package :cl-user)
+(defpackage :chronicler-asd
+  (:use :cl :asdf))
+(in-package :chronicler-asd)
+
 (asdf:defsystem :chronicler
   :description "Track and analyze writing statistics for emacs org files."
   :author "Lit Wakefield <noct@openmailbox.org>"

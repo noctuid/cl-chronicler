@@ -42,4 +42,4 @@ cache:
     - $HOME/.config/common-lisp
 
 script:
-  - run-prove tests/chronicler-tests.asd
+  - cd tests && run-prove chronicler-tests.asd

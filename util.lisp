@@ -1,16 +1,5 @@
 (in-package :chronicler)
 
-(defun empty-string-p (string)
-  "Return nil if STRING has 0 length."
-  (= (length string) 0))
-
-(defun get-file-as-string (file)
-  "Return a string corresponding to the full contents of FILE."
-  (with-open-file (stream file)
-    (let ((data (make-string (file-length stream))))
-      (read-sequence data stream)
-      data)))
-
 (defun replace-/-with-! (path)
   "Replace all '/' characters in PATH with '!' characters."
   (regex-replace-all "/" path "!"))

@@ -3,7 +3,9 @@
 (defpackage :chronicler
   (:use :cl)
   (:import-from :alexandria
-                #:eswitch)
+                #:eswitch
+                #:emptyp
+                #:read-file-into-string)
   (:import-from :cl-ppcre
                 #:regex-replace
                 #:regex-replace-all

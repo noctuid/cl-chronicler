@@ -135,7 +135,7 @@ determines the default recursive setting for the heading."
 The keys correspond to the ids of the org headings (if they have ids).
 The heading object at the 'root' key represents the entire org file and will
 contain all the top level headings in its 'sub-headings' instance data."
-  (let ((org-text (get-file-as-string file))
+  (let ((org-text (read-file-into-string file))
         (root-heading (make-instance 'org-heading
                                      :ignored *default-ignore-behavior*))
         (heading-hash-table (make-hash-table))

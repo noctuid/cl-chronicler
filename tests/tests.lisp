@@ -8,11 +8,11 @@
 (plan nil)
 
 ;; check that ignored syntax is not counted
-(is (count-org-words (read-file-into-string "ignore-syntax.org"))
+(is (count-org-words (read-file-into-string "tests/ignore-syntax.org"))
     14)
 
 ;; check that headings and subheadings are counted properly
-(let* ((headings (parse-markup-file "depth.org"))
+(let* ((headings (parse-markup-file "tests/depth.org"))
        (root-heading (gethash 'root headings))
        (level1 (gethash
                 (intern (string-upcase "ea242d4f-c79b-4f06-95d2-5e197071a048"))

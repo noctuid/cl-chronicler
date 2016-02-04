@@ -1,6 +1,6 @@
 # https://github.com/roswell/roswell/wiki/4.1-Travis-CI
 language: common-lisp
-sudo: require
+sudo: required
 
 # needed for clisp, abcl, alist, and cmucl since sudo is false
 # addons:

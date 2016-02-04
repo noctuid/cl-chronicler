@@ -16,7 +16,8 @@ env:
     - PATH=~/.roswell/bin:$PATH
     - ROSWELL_INSTALL_DIR=$HOME/.roswell
   matrix:
-    - LISP=sbcl-bin
+    # only sbcl is currently supported by cl-coveralls
+    - LISP=sbcl-bin COVERALLS=true
     - LISP=ccl-bin
     - LISP=abcl
     - LISP=clisp
@@ -42,4 +43,5 @@ cache:
     - $HOME/.config/common-lisp
 
 script:
+  # run-prove supports coveralls
   - cd tests && run-prove chronicler-tests.asd

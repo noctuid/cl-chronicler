@@ -12,9 +12,10 @@ addons:
 
 env:
   global:
+    - ROSWELL_INSTALL_DIR=$HOME/.roswell
     # for using run-prove
     - PATH=~/.roswell/bin:$PATH
-    - ROSWELL_INSTALL_DIR=$HOME/.roswell
+    - COVERAGE_EXCLUDE=t
   matrix:
     # only sbcl and ccl are currently supported by cl-coveralls
     - LISP=sbcl-bin COVERALLS=true

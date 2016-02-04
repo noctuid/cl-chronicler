@@ -46,4 +46,4 @@ cache:
 
 script:
   # run-prove supports coveralls
-  - cd tests && run-prove chronicler-tests.asd
+  - run-prove tests/chronicler-tests.asd

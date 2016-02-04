@@ -1,14 +1,14 @@
 # https://github.com/roswell/roswell/wiki/4.1-Travis-CI
 language: common-lisp
-sudo: false
+sudo: require
 
 # needed for clisp, abcl, alist, and cmucl since sudo is false
-addons:
-  apt:
-    packages:
-      - libc6-i386
-      - clisp
-      - openjdk-7-jre
+# addons:
+#   apt:
+#     packages:
+#       - libc6-i386
+#       - clisp
+#       - openjdk-7-jre
 
 env:
   global:

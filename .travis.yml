@@ -16,7 +16,7 @@ env:
     - PATH=~/.roswell/bin:$PATH
     - ROSWELL_INSTALL_DIR=$HOME/.roswell
   matrix:
-    # only sbcl is currently supported by cl-coveralls
+    # only sbcl and ccl are currently supported by cl-coveralls
     - LISP=sbcl-bin COVERALLS=true
     - LISP=ccl-bin
     - LISP=abcl
@@ -35,6 +35,7 @@ matrix:
 
 install:
   - curl -L https://raw.githubusercontent.com/snmsts/roswell/release/scripts/install-for-ci.sh | sh
+  - ros -e '(ql:update-all-dists :prompt nil)'
   - ros install prove
 
 cache:

@@ -1,9 +1,19 @@
 (in-package :chronicler)
 
 ;;; Generic Heading Class and Methods
+;; https://stackoverflow.com/questions/3210177/in-common-lisp-how-to-define-a-generic-data-type-specifier-like-list-of-intege
+(defun elements-are-of-type (seq type)
+  (every #'(lambda (x) (typep x type)) seq))
+
+(deftype list-of-type (type)
+  (let ((predicate (gensym)))
+    (setf (symbol-function predicate)
+          #'(lambda (seq) (elements-are-of-type seq type)) )
+    `(and list (satisfies ,predicate))))
+
 (defclass heading ()
   ((id
-    :type (or string null)
+    :type (or symbol null)
     :initarg :id
     :initform nil
     :documentation "Heading id or name.")
@@ -14,7 +24,7 @@
     :accessor word-count
     :documentation "Number of words directly under the heading.")
    (sub-headings
-    :type (or (list heading) null)
+    :type (or (list-of-type heading) null)
     :accessor sub-headings
     :initform nil
     :documentation "List of heading objects that are sub-headings.")

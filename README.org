@@ -1,3 +1,5 @@
+[[https://travis-ci.org/noctuid/cl-chronicler][https://travis-ci.org/noctuid/cl-chronicler.svg?branch=master]]
+[[https://coveralls.io/github/noctuid/cl-chronicler?branch=master][https://coveralls.io/repos/github/noctuid/cl-chronicler/badge.svg?branch=master]]
 * About
 =chronicler= is a command line utility for tracking statistics about org files, such as word counts. It is primarily meant to be used with a text editor as a front end (see the corresponding [[https://github.com/noctuid/chronicler.el/blob/master/chronicler.el][emacs plugin]]). It is in a very early stage and may change drastically, so I do not recommend using it for now.
 * Installation

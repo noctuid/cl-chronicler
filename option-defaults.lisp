@@ -1,4 +1,4 @@
-(in-package :chronicler)
+(in-package #:chronicler)
 
 (defvar *default-ignore-behavior* nil
   "Whether to ignore all headings by default.

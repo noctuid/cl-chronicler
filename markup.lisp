@@ -1,4 +1,4 @@
-(in-package :chronicler)
+(in-package #:chronicler)
 
 ;;; Generic Heading Class and Methods
 ;; https://stackoverflow.com/questions/3210177/in-common-lisp-how-to-define-a-generic-data-type-specifier-like-list-of-intege
@@ -46,10 +46,15 @@
   (:documentation
    "Get the total word count of a heading including sub-heading content."))
 (defmethod total-word-count ((heading heading))
-  (let ((wc (word-count heading))
-        (sub-headings (sub-headings heading)))
-    (dolist (sub-heading sub-headings)
-      (let ((additional-wc (total-word-count sub-heading)))
-        (unless (ignored sub-heading)
-          (incf wc additional-wc))))
-    wc))
+  (labels ((wc (heading) (if (ignored heading)
+                             0
+                             (word-count heading)))
+           (recur-wc (headings acc)
+             (let* ((current-heading (car headings))
+                    (sub-headings (when current-heading
+                                    (sub-headings current-heading))))
+               (if (null current-heading)
+                   acc
+                   (recur-wc (append sub-headings (cdr headings))
+                             (+ acc (wc current-heading)))))))
+    (recur-wc (sub-headings heading) (wc heading))))

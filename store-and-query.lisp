@@ -1,4 +1,4 @@
-(in-package :chronicler)
+(in-package #:chronicler)
 
 ;;; Persisting and Getting Information for Entire File
 (defun update-today-info (file)

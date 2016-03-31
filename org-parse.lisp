@@ -1,5 +1,5 @@
 ;; TODO: make better sexp regexp wrapper for cl-ppcre or try cl-irregsexp
-(in-package :chronicler)
+(in-package #:chronicler)
 
 ;;; Org Heading Class and Methods
 (defclass org-heading (heading)
@@ -82,48 +82,38 @@
   "(?mi)^[ \\t]*:id:.*$"
   "Regexp that matches the id property.")
 
-(defun heading-ignored-p (heading-text parent-ignored-recursively)
+(defun heading-ignored-p (heading-text parent-ignored-recursively-p)
   "Return a list containing whether HEADING-TEXT is ignored and whether
-any sub-headings will be ignored by default. PARENT-IGNORED-RECURSIVELY
-determines the default recursive setting for the heading."
-  (let ((property-drawer
-          (scan-to-strings +org-property-drawer-regexp+ heading-text))
-        count
-        count-recursive
-        no-count
-        no-count-recursive
-        ignored
-        ignored-recursively)
-    (when (scan-to-strings +count-property+ property-drawer)
-      (setf count t))
-    (when (scan-to-strings +count-recursive-property+ property-drawer)
-      (setf count-recursive t))
-    (when (scan-to-strings +no-count-property+ property-drawer)
-      (setf no-count t))
-    (when (scan-to-strings +no-count-recursive-property+ property-drawer)
-      (setf no-count-recursive t))
-    ;; do count properties take precedence
-    (cond (count-recursive
-           (setf ignored-recursively nil))
-          (no-count-recursive
-           (setf ignored-recursively t))
-          (t
-           (setf ignored-recursively parent-ignored-recursively)))
-    (cond (count
-           (setf ignored nil))
-          (no-count
-           (setf ignored t))
-          (t
-           (setf ignored ignored-recursively)))
+any sub-headings will be ignored by default. PARENT-IGNORED-RECURSIVELY-P
+determines the default recursive setting for the heading. Properties that
+specify that the heading should be counted take precedence in the case that
+the heading has both ignore and count properties."
+  (let* ((property-drawer
+           (scan-to-strings +org-property-drawer-regexp+ heading-text))
+         (ignored-recursively
+           (cond ((scan-to-strings +count-recursive-property+ property-drawer)
+                  nil)
+                 ((scan-to-strings +no-count-recursive-property+ property-drawer)
+                  t)
+                 (t
+                  parent-ignored-recursively-p)))
+         (ignored
+           (cond ((scan-to-strings +count-property+ property-drawer)
+                  nil)
+                 ((scan-to-strings +no-count-property+ property-drawer)
+                  t)
+                 (t
+                  ignored-recursively))))
     (list ignored ignored-recursively)))
 
 (defun get-heading-id (heading-text)
   "Return the id of HEADING-TEXT or nil if there is not one."
-  (let* ((property-drawer
-           (scan-to-strings +org-property-drawer-regexp+ heading-text))
-         (id-section (scan-to-strings +id-property-regexp+ property-drawer)))
-    (intern
-     (string-upcase (regex-replace "(?i)^[ \\t]*:id:\\s*" id-section "")))))
+  (-<>> heading-text
+        (scan-to-strings +org-property-drawer-regexp+)
+        (scan-to-strings +id-property-regexp+)
+        (regex-replace "(?i)^[ \\t]*:id:\\s*" <> "")
+        (string-upcase)
+        (intern)))
 
 (defun get-heading-depth (heading)
   "Return the level of the org heading."
@@ -138,33 +128,32 @@ contain all the top level headings in its 'sub-headings' instance data."
   (let ((org-text (read-file-into-string file))
         (root-heading (make-instance 'org-heading
                                      :ignored *default-ignore-behavior*))
-        (heading-hash-table (make-hash-table))
+        (headings (make-hash-table))
         (heading-tracker (make-array 30 :adjustable t)))
-    (setf (gethash 'root heading-hash-table) root-heading)
-    (setf (elt heading-tracker 0) root-heading)
+    (setf (gethash 'root headings) root-heading)
+    (setf (aref heading-tracker 0) root-heading)
     (do-matches-as-strings
         (heading-text +org-heading-with-contents-regexp+ org-text)
-      (let* ((current-depth (get-heading-depth heading-text))
-             (parent-heading (elt heading-tracker (1- current-depth)))
-             (new-settings (heading-ignored-p
-                            heading-text
-                            (ignored-recursively parent-heading)))
-             (ignored (car new-settings))
-             (ignored-recursively (cadr new-settings))
+      (bind ((current-depth (get-heading-depth heading-text))
+             (parent-heading (aref heading-tracker (1- current-depth)))
              (heading-id (get-heading-id heading-text))
-             (heading-object (make-instance
-                              'org-heading
-                              :ignored ignored
-                              :ignored-recursively ignored-recursively
-                              :id heading-id
-                              :word-count (if ignored
-                                              0
-                                              (count-org-words heading-text)))))
+             ((ignored ignored-recursively)
+              (heading-ignored-p
+               heading-text
+               (ignored-recursively parent-heading)))
+             (heading (make-instance
+                       'org-heading
+                       :id heading-id
+                       :ignored ignored
+                       :ignored-recursively ignored-recursively
+                       :word-count (if ignored
+                                       0
+                                       (count-org-words heading-text)))))
         (setf (sub-headings parent-heading)
-              (cons heading-object (sub-headings parent-heading)))
+              (cons heading (sub-headings parent-heading)))
         (when (>= current-depth (length heading-tracker))
           (setf heading-tracker (adjust-array heading-tracker
                                               (+ current-depth 50))))
-        (setf (elt heading-tracker current-depth) heading-object)
-        (setf (gethash heading-id heading-hash-table) heading-object)))
-    heading-hash-table))
+        (setf (aref heading-tracker current-depth) heading)
+        (setf (gethash heading-id headings) heading)))
+    headings))

@@ -1,4 +1,4 @@
-(in-package :chronicler)
+(in-package #:chronicler)
 
 (defun replace-/-with-! (path)
   "Replace all '/' characters in PATH with '!' characters."

@@ -1,4 +1,4 @@
-(in-package :chronicler)
+(in-package #:chronicler)
 
 (defun parse-markup-file (file)
   "Determine FILE's extension and dispatch to the appropriate parsing function."

@@ -1,27 +1,28 @@
-(in-package :cl-user)
+(in-package #:cl-user)
 
-(defpackage :chronicler
-  (:use :cl)
-  (:import-from :alexandria
+(defpackage #:chronicler
+  (:use #:cl)
+  (:import-from #:alexandria
                 #:eswitch
                 #:emptyp
-                #:read-file-into-string)
-  (:import-from :cl-ppcre
+   :read-file-into-string)
+  (:import-from #:cl-ppcre
                 #:regex-replace
                 #:regex-replace-all
                 #:scan
                 #:scan-to-strings
-                #:do-matches-as-strings)
-  (:import-from :local-time
+                #:do-matches-as-strings
+                #:split)
+  (:import-from #:local-time
                 #:format-timestring
                 #:timestamp-
                 #:now)
-  (:import-from :uiop/filesystem
+  (:import-from #:uiop/filesystem
                 #:directory-files)
-  (:import-from :cl-store
+  (:import-from #:cl-store
                 #:store
                 #:restore)
-  (:import-from :unix-opts
+  (:import-from #:unix-opts
                 #:define-opts
                 #:option
                 #:skip-option
@@ -30,6 +31,11 @@
                 #:missing-arg
                 #:arg-parser-failed
                 #:raw-arg)
-  (:shadowing-import-from :unix-opts
+  (:import-from #:cl-arrows
+                #:->>
+                #:-<>>)
+  (:import-from #:metabang-bind
+                #:bind)
+  (:shadowing-import-from #:unix-opts
                           #:describe)
-  (:export :main))
+  (:export #:main))

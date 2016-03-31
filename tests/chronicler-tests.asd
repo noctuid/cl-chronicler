@@ -1,7 +1,7 @@
-(in-package :cl-user)
-(defpackage :chronicler-tests-asd
-  (:use :cl :asdf))
-(in-package :chronicler-tests-asd)
+(in-package #:cl-user)
+(defpackage #:chronicler-tests-asd
+  (:use #:cl #:asdf))
+(in-package #:chronicler-tests-asd)
 
 (defsystem :chronicler-tests
   :license "GPL3"

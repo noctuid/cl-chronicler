@@ -1,4 +1,4 @@
-(in-package :chronicler)
+(in-package #:chronicler)
 
 ;; TODO: figure out why emacs is indenting these wrong
 (define-opts

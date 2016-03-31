@@ -1,6 +1,6 @@
 ;; in the same package (but not included in main system)
 ;; allows for access to internals without exporting everything
-(in-package :chronicler)
+(in-package #:chronicler)
 ;; I don't need prove in the main package; only import its symbols here
 (use-package :prove)
 

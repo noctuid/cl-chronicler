@@ -26,3 +26,5 @@ unintall:
 
 test:
 	cd tests && run-prove chronicler-tests.asd
+
+.PHONY: clean install uninstall test

@@ -11,8 +11,8 @@ chronicler: $(FILES) chronicler.ros
 	ros -L $(LISP) build chronicler.ros
 
 clean:
-	rm *.fasl
-	rm chronicler
+	rm -f *.fasl
+	rm -f chronicler
 
 install:
 	install -D -m 755 chronicler "$(DESTDIR)$(BINDIR)"/chronicler

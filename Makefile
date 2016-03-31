@@ -23,3 +23,6 @@ unintall:
 	rm -f "$(DESTDIR)$(BINDIR)"/chronicler
 	rm -rf "$(DESTDIR)$(LICENSEDIR)"/chronicler
 	rm -f "$(DESTDIR)$(ZSHDIR)"/_chronicler
+
+test:
+	cd tests && run-prove chronicler-tests.asd
